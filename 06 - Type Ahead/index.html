@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" value='' placeholder="City or State">
+    <ul class="suggestions">
+      <!--li>Filter for a city and state</li-->
+    </ul>
+  </form>
+
+  <script>
+    const search = document.querySelector('.search');
+    const suggestions = document.querySelector('.suggestions');
+
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+    const places = [];
+
+    async function fetchCities() {
+      fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(item => item['cityAndState'] = item.city + ', ' + item.state);
+          places.push(...data);
+        });
+    }
+
+    fetchCities();
+
+    function findMatches(regex, places) {
+      return places.filter(place => regex.test(place.cityAndState));
+    }
+    
+    function numberWithCommas(numberStr) {
+      return numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function setInputValue(placeStr) {
+      search.value = placeStr;
+      search.focus();
+      search.dispatchEvent(new Event('input'));
+    }
+
+    function displayMatches(e) {
+      if (this.value === '') {
+        suggestions.innerHTML = '';
+      } else {
+        const regex = new RegExp(this.value, 'gi');
+        const matches = findMatches(regex, places);
+        const listItems = matches.map(place => {
+          const highlightedName = place.cityAndState.replace(regex, `<span class="hl">${this.value}</span>`);
+          return `
+            <li>
+                <span class="name" onclick="setInputValue('${place.cityAndState}');">${highlightedName}</span>
+                <span class="population">${numberWithCommas(place.population)}</span>
+            </li>
+          `;
+        }).join('');
+        suggestions.innerHTML = listItems;
+      }
+    }
+    
+    search.addEventListener('input', displayMatches);
+    search.addEventListener('keyup', displayMatches);
+    search.value = '';
+    
+  </script>
+</body>
+</html>
