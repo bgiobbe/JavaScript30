@@ -8,18 +8,40 @@
 </head>
 
 <body>
+  <div class="instructions">
+    <h1>Rainbow Paint</h1>
+    <ul>
+      <li>Click and drag to paint</li>
+      <li>Double-click to erase canvas</li>
+      <li>Take screenshot to save your artwork 🙃</li>
+      <li>Have fun!</li>
+    </ul>
+    <button>Hide these instructions<br>(erases canvas)</button>
+  </div>
   <canvas id="draw" width="800" height="800"></canvas>
 
   <script>
 
+    const hideButton = document.querySelector('button');
+    const instructions = document.querySelector('.instructions');
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
 
-    [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];
-    ctx.strokeStyle = 'crimson';
-    ctx.lineJoin = 'round';     // round, bevel, miter (default)
-    ctx.lineCap = 'round';      // butt (default), round, square
-
+    hideButton.addEventListener('click', () => {
+      instructions.classList.add('hide');
+      [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+    });
+    
+    function resetCanvas() {
+      [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];
+      ctx.strokeStyle = 'crimson';
+      ctx.lineJoin = 'round';     // round, bevel, miter (default)
+      ctx.lineCap = 'round';      // butt (default), round, square
+    }
+    
+    resetCanvas();
     let isDrawing = false;
     let [lastX, lastY] = [0, 0];
     let hue = 0;
@@ -71,6 +93,20 @@
     html,
     body {
       margin: 0;
+    }
+    .instructions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid black;
+    }
+    h1,
+    ul,
+    button {
+      margin: 0 10px;
+    }
+    .hide {
+      display: none;
     }
   </style>
 
