@@ -74,8 +74,13 @@ h2 {
   margin-top: 20px;
 }
 
-.add-items input {
+.add-items input,
+.buttons input {
   padding: 10px;
   outline: 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.buttons {
+  margin-top: 15px;
 }
