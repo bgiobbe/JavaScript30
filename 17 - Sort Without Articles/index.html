@@ -50,28 +50,17 @@
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 const bands_list = document.querySelector('#bands');
 
-function withoutArticle(s) {
-  if (s.startsWith("A ")) { return s.substring(2); } 
-  else if (s.startsWith("An ")) { return s.substring(3); } 
-  else if (s.startsWith("The ")) { return s.substring(4); } 
-  else { return s; }
+function removeArticle(s) {
+  return s.replace(/^(a|an|the)\s/i, '');
 }
 
-bands.sort((a, b) => {
-  let aa = withoutArticle(a), bb = withoutArticle(b);
-  return (aa < bb) ? -1 : 1;
-});
+// sort bands in place
+bands.sort((a, b) => (removeArticle(a) < removeArticle(b)) ? -1 : 1);
 
-const listItems = [];
-for (band of bands) {
-  listItems.push(`<li>${band}</li>`);
-}
-bands_list.innerHTML = listItems.join('\n');
-  
-
-
-
-
+// fill unordered list with sorted bands
+bands_list.innerHTML = bands
+  .map(band => `<li>${band}</li>`)
+  .join('\n');
 
 </script>
 
