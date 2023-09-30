@@ -10,32 +10,37 @@
 
   <div class="photobooth">
     <div class="controls">
+      <label for="filter">Filter:</label>
+      <select name="filter" id="filter">
+        <option value="none">none</option>
+        <option value="red-shift">Red shift</option>
+        <option value="rgb-split">RGB split</option>
+        <option value="green-screen">Green screen</option>
+      </select>
       <button onClick="takePhoto()">Take Photo</button>
-<!--       <div class="rgb">
+      <div class="rgb">
         <label for="rmin">Red Min:</label>
         <input type="range" min=0 max=255 name="rmin">
         <label for="rmax">Red Max:</label>
         <input type="range" min=0 max=255 name="rmax">
-
         <br>
-
         <label for="gmin">Green Min:</label>
         <input type="range" min=0 max=255 name="gmin">
         <label for="gmax">Green Max:</label>
         <input type="range" min=0 max=255 name="gmax">
-
         <br>
-
         <label for="bmin">Blue Min:</label>
         <input type="range" min=0 max=255 name="bmin">
         <label for="bmax">Blue Max:</label>
         <input type="range" min=0 max=255 name="bmax">
-      </div> -->
+      </div>
     </div>
 
     <canvas class="photo"></canvas>
     <video class="player"></video>
-    <div class="strip"></div>
+    <div class="strip">
+      <p style="text-align: center;">Option-click or Alt-click to delete a photo</p>
+    </div>
   </div>
 
   <audio class="snap" src="./snap.mp3" hidden></audio>
